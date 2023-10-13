@@ -10,7 +10,7 @@
             </ul>
             <div class="flex relative">
                 <form @submit.prevent>
-                    <input v-model="searchTerm" type="text" id="pageSearch" name="pageSearch" placeholder="Search" class="border border-indigo-500 py-[8px] px-[16px]  mr-[16px]" @input="submitSearch(e)" />
+                    <input v-model="searchTerm" type="text" id="pageSearch" name="pageSearch" placeholder="Search" class="border border-indigo-500 py-[8px] px-[16px]  mr-[16px] placeholder:italic placeholder:text-slate-400 focus:outline-none" @input="submitSearch(e)" />
                     <button class="border border-indigo-700 bg-indigo-700 text-white py-[8px] px-[16px]">Search</button>
                 </form> 
                 <div v-if="filteredData !== null && filteredData.length" class="border border-indigo-400 absolute top-[50px] py-[12px] cursor-pointer">
