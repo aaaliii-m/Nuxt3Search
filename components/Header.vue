@@ -10,15 +10,19 @@
             </ul>
             <div class="flex relative">
                 <form @submit.prevent>
-                    <input v-model="searchTerm" type="text" id="pageSearch" name="pageSearch" placeholder="Search" class="border border-indigo-500 py-[8px] px-[16px] rounded-[24px] mr-[16px]" @input="submitSearch(e)" />
+                    <input v-model="searchTerm" type="text" id="pageSearch" name="pageSearch" placeholder="Search" class="border border-indigo-500 py-[8px] px-[16px]  mr-[16px]" @input="submitSearch(e)" />
                     <button class="border border-indigo-700 bg-indigo-700 text-white py-[8px] px-[16px]">Search</button>
                 </form> 
-                <div v-if="filteredData !== null" class="border border-indigo-400 absolute top-[50px] rounded-[30px] py-[12px] px-[24px] cursor-pointer">
-                    <ul v-for="search in filteredData" :key="search.id">
-                        <li>{{search.title}}</li>
+                <div v-if="filteredData !== null && filteredData.length" class="border border-indigo-400 absolute top-[50px] py-[12px] cursor-pointer">
+                    <ul v-for="search, i in filteredData" :key="i + 'searchItem'" class="text-[#111] text-[14px]"  :class="{'bg-gray-200': (i % 2) == 0,  'bg-white': (i % 2) == 1}" >
+                        <li class="mb-[4px] py-[5px] px-[24px] hover:bg-indigo-400 hover:text-white">{{search.title}}</li>
                     </ul>
                 </div> 
-                <div v-else></div> 
+                <div v-else-if="filteredData !== null && filteredData.length == 0" class="border border-indigo-400 absolute top-[50px] py-[12px] cursor-default">
+                    <div class="text-[#111] text-[14px] bg-gray-200">
+                        <p class="mb-[4px] py-[5px] px-[24px]">No item found</p>
+                    </div>
+                </div> 
             </div>
         </div>
     </div>    
@@ -38,7 +42,7 @@ const submitSearch = async () => {
         await updateDebounceSearch(searchTerm);
     } else {
         console.log("text too short");
-
+        filteredData.value = null;
     }
 }
 
@@ -58,16 +62,17 @@ const updateDebounceSearch = debounce(async term => {
     // term.value.toLowerCase();
     try {
         console.log("all Data in header: >>> ", data.value[0]);
-        receivedData.value = data.value;
-        console.log(receivedData.value, " search term")
+        filteredData.value = data.value.filter(item => item.title.toLowerCase().includes(term.value.toLowerCase()));
+        // receivedData.value = data.value;
+        console.log(filteredData.value, " search term")
     } catch {
       console.log("Error in Data in Header: >>> ", error)
     }
 
-    if (receivedData.value) {
-        filteredData.value = receivedData.value.filter(item => item.title.toLowerCase().includes(term.value.toLowerCase()));
-        console.log(filteredData.value)
-    }
+    // if (receivedData.value) {
+    //     filteredData.value = receivedData.value.filter(item => item.title.toLowerCase().includes(term.value.toLowerCase()));
+    //     console.log(filteredData.value)
+    // }
 
 }, 800);
 

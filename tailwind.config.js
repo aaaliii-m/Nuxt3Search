@@ -2,8 +2,13 @@
 export default {
   content: [],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        rokit: ["Rokkitt", "serif"],
+        montserrat: ["Montserrat", "Arial", "sans-serif"],
+      },
+    },
   },
   plugins: [],
-}
+};
 
